@@ -9,7 +9,7 @@ typedef enum
   LOAD_A = 0b0001,     //fiz
   JUMP = 0b0111,      //fiz
   JUMP_NZ = 0b1010,  //fiz
-  RET = 0b1110,     
+  RET = 0b1110,     //fiz
   ARIT = 0b1100,
   HALT = 0b1111
 } Opcode;
@@ -66,6 +66,26 @@ int processa(short int *M, int memSize)
         pc = arg - 1;
       }
     }
+
+    if(opcode == RET){
+      pc = r - 1;
+    }
+
+//conferir depois
+      if(opcode == ARIT){
+    // Perform the arithmetic operation
+    a = a + b;
+
+    // Update the PSW register
+    if(a == 0){
+        psw = 1; // Set the zero flag
+    } else {
+        psw = 0; // Clear the zero flag
+    }
+}
+    
+
+
 
     // sai do loop se a instrução for HALT
     // 0xF é o opcode de HALT agora ou 0b111
