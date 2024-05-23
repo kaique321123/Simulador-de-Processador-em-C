@@ -71,16 +71,9 @@ int processa(short int *M, int memSize)
     
     }
 
-//conferir depois
-      if(opcode == ARIT){
-    // Perform the arithmetic operation
-    a = a + b;
 
-    // Update the PSW register
-    if(a == 0){
-        psw = 1; // Set the zero flag
-    } else {
-        psw = 0; // Clear the zero flag
+      if(opcode == ARIT){
+   
     }
 }
     
