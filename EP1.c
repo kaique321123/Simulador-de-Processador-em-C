@@ -42,7 +42,7 @@ typedef enum
 int aritt(int i, int dest, int Op1, int Op2)
 {
   // Faz destino apontar para o registrador certo, de acordo com os bits em dest
-  int *destino = NULL;
+  unsigned short int *destino = NULL;
 
   switch (dest)
   {
@@ -90,55 +90,80 @@ int aritt(int i, int dest, int Op1, int Op2)
   }
 
   int valor2;
-  switch (Op2)
+  if (Op2 == 0b000)
   {
-  case 0b000:
-    valor2 = a;
-    break;
-  case 0b001:
-    valor2 = b;
-    break;
-  case 0b010:
-    valor2 = c;
-  case 0b011:
-    valor2 = d;
-  case 0b110:
-    valor2 = r;
-  case 0b111:
-    valor2 = psw;
-  default:
-    printf("Op2 nao deu certo :( ");
+    valor2 = 0;
+  }
+  else if (Op2 == 0b001)
+  {
+    valor2 = 0;
+  }
+  else if (Op2 == 0b010)
+  {
+    valor2 = 0;
+  }
+  else if (Op2 == 0b011)
+  {
+    valor2 = 0;
+  }
+  else
+  {
+    switch (Op2)
+    {
+    case 0b000:
+      valor2 = a;
+      break;
+    case 0b001:
+      valor2 = b;
+      break;
+    case 0b010:
+      valor2 = c;
+    case 0b011:
+      valor2 = d;
+    default:
+      printf("Op2 nao deu certo :( ");
+    }
   }
 
   // verifica o registrador que deseja
-
   if (i == set0)
   {
+    printf("set0 \n");
     *destino = 0;
   }
-
+  if (i == setF)
+  {
+    printf("setF \n");
+    *destino = 0xFFFF;
+  }
   if (i == NOT)
   {
+    printf("NOT \n");
     *destino = ~valor1;
   }
   if (i == AND)
   {
+    printf("AND \n");
     *destino = valor1 & valor2;
   }
   if (i == OR)
   {
+    printf("OR \n");
     *destino = valor1 | valor2;
   }
   if (i == XOR)
   {
+    printf("XOR \n");
     *destino = valor1 ^ valor2;
   }
   if (i == ADD)
   {
+    printf("ADD \n");
     *destino = valor1 + valor2;
   }
   if (i == SUB)
   {
+    printf("SUB \n");
     *destino = valor1 + valor2;
   }
 }
@@ -200,14 +225,14 @@ int processa(short int *M, int memSize)
       printf("[%i] r recebeu o proximo endereço sequencial%x", pc, r);
     }
 
-    Arit arit = (ri & 0b0000'111'000'000'000) >> 9;
-    unsigned short int Res = (ri & 0b0000'000'111'000'000) >> 6;
-    unsigned short int Op1 = (ri & 0b0000'000'000'111'000) >> 3;
-    unsigned short int Op2 = (ri & 0b0000'000'000'000'111);
+    unsigned int arit = (ri & 0b0000111000000000) >> 9;
+    unsigned int Res = (ri & 0b0000000111000000) >> 6;
+    unsigned int Op1 = (ri & 0b0000000000111000) >> 3;
+    unsigned int Op2 = (ri & 0b0000000000000111);
 
     if (opcode == ARIT)
     {
-      aritt(arit, &Res, Op1, Op2);
+      aritt(arit, Res, Op1, Op2);
     }
 
     if (opcode == HALT)
