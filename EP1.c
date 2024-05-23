@@ -9,7 +9,7 @@ typedef enum
   LOAD_A = 0b0001,     //fiz
   JUMP = 0b0111,      //fiz
   JUMP_NZ = 0b1010,  //fiz
-  RET = 0b1110,     //fiz
+  RET = 0b1110,     
   ARIT = 0b1100,
   HALT = 0b1111
 } Opcode;
@@ -68,7 +68,7 @@ int processa(short int *M, int memSize)
     }
 
     if(opcode == RET){
-      pc = r - 1;
+    
     }
 
 //conferir depois
