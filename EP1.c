@@ -225,14 +225,14 @@ int processa(short int *M, int memSize)
       printf("[%i] r recebeu o proximo endereço sequencial%x", pc, r);
     }
 
-    unsigned int arit = (ri & 0b0000111000000000) >> 9;
+    unsigned int AR = (ri & 0b0000111000000000) >> 9;
     unsigned int Res = (ri & 0b0000000111000000) >> 6;
     unsigned int Op1 = (ri & 0b0000000000111000) >> 3;
     unsigned int Op2 = (ri & 0b0000000000000111);
 
     if (opcode == ARIT)
     {
-      aritt(arit, Res, Op1, Op2);
+      aritt(AR, Res, Op1, Op2);
     }
 
     if (opcode == HALT)
