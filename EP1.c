@@ -18,11 +18,11 @@ typedef enum
   NO_OP = 0b0000,   // fiz
   STORE_A = 0b0010, // fiz
   LOAD_A = 0b0001,  // fiz
-  JUMP = 0b0111,    // fiz
+  JUMP = 0b0011,    // fiz
   JUMP_NZ = 0b0100, // fiz
-  RET = 0b1110,     // fiz
-  ARIT = 0b1100,
-  HALT = 0b1111
+  RET = 0b0101,     // fiz
+  ARIT = 0b0110,    // fiz
+  HALT = 0b1111     //fiz
 } Opcode;
 
 typedef enum
@@ -65,7 +65,7 @@ int aritt(int i, int dest, int Op1, int Op2)
     destino = &psw;
     break;
   default:
-    printf("Destino nao deu certo :( ");
+    printf("Destino nao deu certo :( \n");
   }
 
   int valor1;
@@ -79,14 +79,18 @@ int aritt(int i, int dest, int Op1, int Op2)
     break;
   case 0b010:
     valor1 = c;
+    break;
   case 0b011:
     valor1 = d;
+    break;
   case 0b110:
     valor1 = r;
+    break;
   case 0b111:
     valor1 = psw;
+    break;
   default:
-    printf("Op1 nao deu certo :( ");
+    printf("Op1 nao deu certo :( \n");
   }
 
   int valor2;
@@ -110,18 +114,20 @@ int aritt(int i, int dest, int Op1, int Op2)
   {
     switch (Op2)
     {
-    case 0b000:
+    case 0b100:
       valor2 = a;
       break;
-    case 0b001:
+    case 0b101:
       valor2 = b;
       break;
-    case 0b010:
+    case 0b110:
       valor2 = c;
-    case 0b011:
+      break;
+    case 0b111:
       valor2 = d;
+      break;
     default:
-      printf("Op2 nao deu certo :( ");
+      printf("Op2 nao deu certo :( \n");
     }
   }
 
@@ -192,17 +198,17 @@ int processa(short int *M, int memSize)
     {
       a = memoria[arg];
 
-      printf("[%i] o que foi carregado load %x \n", pc, a);
+      printf("[%i] LDA %hx \n", pc, a);
     }
     if (opcode == STORE_A)
     {
       memoria[arg] = a;
 
-      printf("o que foi armazenado %x store\n", memoria[arg]);
+      printf("STA %hx \n", memoria[arg]);
     }
     if (opcode == JUMP)
     {
-      printf("posição que pulou jump [%i]\n", pc);
+      printf("JMP [%i]\n", pc);
       pc = arg - 1;
     }
 
@@ -211,7 +217,7 @@ int processa(short int *M, int memSize)
       if (a != 0)
       {
         pc = arg - 1;
-        printf("[%i] o pulo deu certo jnz\n", pc);
+        printf("[%i] JNZ \n", pc);
       }
     }
 
@@ -221,8 +227,8 @@ int processa(short int *M, int memSize)
       pc = r;
       r = aux + 1;
 
-      printf(" pc recebeu esse valor ret [%i] de r", pc);
-      printf("[%i] r recebeu o proximo endereço sequencial ret %x", pc, r);
+      printf(" RET [%i]", pc);
+      printf("[%i] r recebeu o proximo endereço sequencial %hx", pc, r);
     }
 
     unsigned int AR = (ri & 0b0000111000000000) >> 9;
@@ -232,11 +238,13 @@ int processa(short int *M, int memSize)
 
     if (opcode == ARIT)
     {
+      printf("ARITT \n");
       aritt(AR, Res, Op1, Op2);
     }
 
     if (opcode == HALT)
     {
+      printf("HALT \n");
       break;
     }
 
