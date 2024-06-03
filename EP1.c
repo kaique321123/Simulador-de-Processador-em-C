@@ -19,7 +19,7 @@ typedef enum
   STORE_A = 0b0010, // fiz
   LOAD_A = 0b0001,  // fiz
   JUMP = 0b0111,    // fiz
-  JUMP_NZ = 0b1010, // fiz
+  JUMP_NZ = 0b0100, // fiz
   RET = 0b1110,     // fiz
   ARIT = 0b1100,
   HALT = 0b1111
@@ -192,17 +192,17 @@ int processa(short int *M, int memSize)
     {
       a = memoria[arg];
 
-      printf("[%i] o que foi carregado %x \n", pc, a);
+      printf("[%i] o que foi carregado load %x \n", pc, a);
     }
     if (opcode == STORE_A)
     {
       memoria[arg] = a;
 
-      printf("o que foi armazenado %x \n", memoria[arg]);
+      printf("o que foi armazenado %x store\n", memoria[arg]);
     }
     if (opcode == JUMP)
     {
-      printf("posição que pulou [%i]\n", pc);
+      printf("posição que pulou jump [%i]\n", pc);
       pc = arg - 1;
     }
 
@@ -211,7 +211,7 @@ int processa(short int *M, int memSize)
       if (a != 0)
       {
         pc = arg - 1;
-        printf("[%i] o pulo deu certo \n", pc);
+        printf("[%i] o pulo deu certo jnz\n", pc);
       }
     }
 
@@ -221,8 +221,8 @@ int processa(short int *M, int memSize)
       pc = r;
       r = aux + 1;
 
-      printf(" pc recebeu esse valor [%i] de r", pc);
-      printf("[%i] r recebeu o proximo endereço sequencial%x", pc, r);
+      printf(" pc recebeu esse valor ret [%i] de r", pc);
+      printf("[%i] r recebeu o proximo endereço sequencial ret %x", pc, r);
     }
 
     unsigned int AR = (ri & 0b0000111000000000) >> 9;
