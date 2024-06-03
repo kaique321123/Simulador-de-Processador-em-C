@@ -1,6 +1,5 @@
 #include "driverEP1.h"
 #include <stdbool.h>
-#include <inttypes.h>
 
 // registrodores
 // conteudo de memória na posição pc
@@ -22,19 +21,19 @@ typedef enum
   JUMP_NZ = 0b0100, // fiz
   RET = 0b0101,     // fiz
   ARIT = 0b0110,    // fiz
-  HALT = 0b1111     //fiz
+  HALT = 0b1111     // fiz
 } Opcode;
 
 typedef enum
 {
-  set0 = 0b000,
-  setF = 0b001,
-  NOT = 2,
-  AND = 3,
-  OR = 4,
-  XOR = 5,
-  ADD = 6,
-  SUB = 7
+  set0 = 0b000, // 0
+  setF = 0b001, // 1
+  NOT = 0b010,  // 2
+  AND = 0b011,  // 3
+  OR = 0b100,   // 4
+  XOR = 0b101,  // 5
+  ADD = 0b110,  // 6
+  SUB = 0b111   // 7
 } Arit;
 
 // ctrl shift b para compilar sem rodar
@@ -170,7 +169,7 @@ int aritt(int i, int dest, int Op1, int Op2)
   if (i == SUB)
   {
     printf("SUB \n");
-    *destino = valor1 + valor2;
+    *destino = valor1 - valor2;
   }
 }
 
@@ -198,17 +197,21 @@ int processa(short int *M, int memSize)
     {
       a = memoria[arg];
 
-      printf("[%i] LDA %hx \n", pc, a);
+      //printf("[%i] LDA %x \n", pc, a);
+      printf("LDA (%i) \n", arg);
     }
     if (opcode == STORE_A)
     {
       memoria[arg] = a;
 
-      printf("STA %hx \n", memoria[arg]);
+     // printf("STA %hx \n", memoria[arg]);
+      printf("STA (%i) \n", arg);
     }
     if (opcode == JUMP)
     {
-      printf("JMP [%i]\n", pc);
+
+      //printf("JMP [%i]\n", pc);
+      printf("JMP (%i) \n", arg);
       pc = arg - 1;
     }
 
@@ -217,7 +220,8 @@ int processa(short int *M, int memSize)
       if (a != 0)
       {
         pc = arg - 1;
-        printf("[%i] JNZ \n", pc);
+       // printf("[%i] JNZ \n", pc);
+        printf("JNZ (%i) \n", arg);
       }
     }
 
@@ -227,8 +231,8 @@ int processa(short int *M, int memSize)
       pc = r;
       r = aux + 1;
 
-      printf(" RET [%i]", pc);
-      printf("[%i] r recebeu o proximo endereço sequencial %hx", pc, r);
+      //printf(" RET [%i]", pc);
+      printf("RET (%i) \n", arg);
     }
 
     unsigned int AR = (ri & 0b0000111000000000) >> 9;
@@ -238,7 +242,7 @@ int processa(short int *M, int memSize)
 
     if (opcode == ARIT)
     {
-      printf("ARITT \n");
+      printf("ARITT ");
       aritt(AR, Res, Op1, Op2);
     }
 
