@@ -1,5 +1,8 @@
 #include "driverEP1.h"
 #include <stdbool.h>
+#include <stdint.h>
+
+void printCurrentInstruction();
 
 // registrodores
 // conteudo de memória na posição pc
@@ -188,6 +191,9 @@ int processa(short int *M, int memSize)
     Opcode opcode = (ri & 0xF000) >> 12;
     unsigned int arg = (ri & 0x0FFF);
 
+    // Imprime a posição, instrução atual, e mnemônico da instrução a ser executada
+    printCurrentInstruction();
+
     if (opcode == 0b000)
     {
       printf("NOP [%i] \n", pc);
@@ -252,13 +258,32 @@ int processa(short int *M, int memSize)
       break;
     }
 
+    // Espera o usuário pressionar uma tecla
     getchar();
 
-    printf("Ensine-me a fazer algo com %hx\n", ri);
+    //printf("Ensine-me a fazer algo com %hx\n", ri);
     // incrementa o pc
     pc++;
     // decodifica a instrução
     if (pc >= memSize)
       pc = 0;
   }
+}
+
+/**
+ * @brief Imprime no console em cores a posição atual do PROGRAM COUNTER, o código da instrução
+ * (opcode) e o mnemônico que esse opcode representa. 
+ */
+void printCurrentInstruction() {
+  const char* const OPCODES[] = {
+    "NOP", "LDA", "STA", "JMP",
+    "JNZ", "RET", "ARIT", "??7",
+    "??8", "??9", "??A", "??B",
+    "??C", "??D", "??E", "HLT"
+  };
+
+  int opcode = (ri & 0xF000) >> 12;
+
+  // Imprime a posição, instrução e mnemônico atuais
+  printf("::\033[33m [%03Xh] %04X: %s\033[0m\n", (uint32_t)pc, (uint32_t)ri, OPCODES[opcode]);
 }
