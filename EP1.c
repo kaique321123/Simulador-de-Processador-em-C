@@ -149,8 +149,9 @@ int aritt(int i, int dest, int Op1, int Op2)
     printf("NOT \n");
     *destino = ~valor1;
   }
-  if (i != AND)
+  if (i == AND)
   {
+    //valor2 com problema
     printf("AND \n");
     *destino = valor1 & valor2;
   }
@@ -179,6 +180,7 @@ int aritt(int i, int dest, int Op1, int Op2)
 int processa(short int *M, int memSize)
 {
 
+  // conteúdo do acumulador
   unsigned short int *memoria = (unsigned short int *)M;
 
   // começa a execução
@@ -203,21 +205,23 @@ int processa(short int *M, int memSize)
     {
       a = memoria[arg];
 
-       printf("[%i] LDA %x \n", pc, a);
-     // printf("LDA (%i) \n", arg);
+      printf("[%i] LDA %x \n", pc, a);
+      // printf("LDA (%i) \n", arg);
     }
+
     if (opcode == STORE_A)
     {
       memoria[arg] = a;
 
-       printf("STA %hx \n", memoria[arg]);
-     // printf("STA (%i) \n", arg);
+      printf("STA %hx \n", memoria[arg]);
+      // printf("STA (%i) \n", arg);
     }
+
     if (opcode == JUMP)
     {
 
-       printf("JMP [%i]\n", pc);
-    //  printf("JMP (%i) \n", arg);
+      printf("JMP [%i]\n", pc);
+      //  printf("JMP (%i) \n", arg);
       pc = arg - 1;
     }
 
@@ -230,8 +234,8 @@ int processa(short int *M, int memSize)
       if (a != 0)
       {
         pc = arg - 1;
-       printf("[%i] JNZ \n", pc);
-      //  printf("JNZ (%i) \n", arg);
+        printf("[%i] JNZ \n", pc);
+        //  printf("JNZ (%i) \n", arg);
       }
     }
 
@@ -241,8 +245,8 @@ int processa(short int *M, int memSize)
       pc = r;
       r = aux + 1;
 
-   printf(" RET [%i]", pc);
-//      printf("RET (%i) \n", arg);
+      printf(" RET [%i]", pc);
+      //      printf("RET (%i) \n", arg);
     }
 
     unsigned int AR = (ri & 0b0000111000000000) >> 9;
