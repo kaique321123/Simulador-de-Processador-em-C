@@ -137,7 +137,7 @@ int aritt(int i, int dest, int Op1, int Op2)
   if (i == set0)
   {
     printf("set0 \n");
-    *destino = 0;
+    *destino = 0x0000;
   }
   if (i == setF)
   {
@@ -149,7 +149,7 @@ int aritt(int i, int dest, int Op1, int Op2)
     printf("NOT \n");
     *destino = ~valor1;
   }
-  if (i == AND)
+  if (i != AND)
   {
     printf("AND \n");
     *destino = valor1 & valor2;
@@ -203,31 +203,35 @@ int processa(short int *M, int memSize)
     {
       a = memoria[arg];
 
-      //printf("[%i] LDA %x \n", pc, a);
-      printf("LDA (%i) \n", arg);
+       printf("[%i] LDA %x \n", pc, a);
+     // printf("LDA (%i) \n", arg);
     }
     if (opcode == STORE_A)
     {
       memoria[arg] = a;
 
-     // printf("STA %hx \n", memoria[arg]);
-      printf("STA (%i) \n", arg);
+       printf("STA %hx \n", memoria[arg]);
+     // printf("STA (%i) \n", arg);
     }
     if (opcode == JUMP)
     {
 
-      //printf("JMP [%i]\n", pc);
-      printf("JMP (%i) \n", arg);
+       printf("JMP [%i]\n", pc);
+    //  printf("JMP (%i) \n", arg);
       pc = arg - 1;
     }
 
+    if (a == 0)
+    {
+      printf("%i \n", a);
+    }
     if (opcode == JUMP_NZ)
     {
       if (a != 0)
       {
         pc = arg - 1;
-       // printf("[%i] JNZ \n", pc);
-        printf("JNZ (%i) \n", arg);
+       printf("[%i] JNZ \n", pc);
+      //  printf("JNZ (%i) \n", arg);
       }
     }
 
@@ -237,8 +241,8 @@ int processa(short int *M, int memSize)
       pc = r;
       r = aux + 1;
 
-      //printf(" RET [%i]", pc);
-      printf("RET (%i) \n", arg);
+   printf(" RET [%i]", pc);
+//      printf("RET (%i) \n", arg);
     }
 
     unsigned int AR = (ri & 0b0000111000000000) >> 9;
@@ -261,7 +265,7 @@ int processa(short int *M, int memSize)
     // Espera o usuário pressionar uma tecla
     getchar();
 
-    //printf("Ensine-me a fazer algo com %hx\n", ri);
+    printf("Ensine-me a fazer algo com %hx\n", ri);
     // incrementa o pc
     pc++;
     // decodifica a instrução
@@ -272,15 +276,15 @@ int processa(short int *M, int memSize)
 
 /**
  * @brief Imprime no console em cores a posição atual do PROGRAM COUNTER, o código da instrução
- * (opcode) e o mnemônico que esse opcode representa. 
+ * (opcode) e o mnemônico que esse opcode representa.
  */
-void printCurrentInstruction() {
-  const char* const OPCODES[] = {
-    "NOP", "LDA", "STA", "JMP",
-    "JNZ", "RET", "ARIT", "??7",
-    "??8", "??9", "??A", "??B",
-    "??C", "??D", "??E", "HLT"
-  };
+void printCurrentInstruction()
+{
+  const char *const OPCODES[] = {
+      "NOP", "LDA", "STA", "JMP",
+      "JNZ", "RET", "ARIT", "??7",
+      "??8", "??9", "??A", "??B",
+      "??C", "??D", "??E", "HLT"};
 
   int opcode = (ri & 0xF000) >> 12;
 
