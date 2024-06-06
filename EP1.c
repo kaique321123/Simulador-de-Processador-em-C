@@ -43,6 +43,7 @@ typedef enum
 
 int aritt(int i, int dest, int Op1, int Op2)
 {
+
 	// Faz destino apontar para o registrador certo, de acordo com os bits em dest
 	unsigned short int *destino = NULL;
 	bool overflow = false;
