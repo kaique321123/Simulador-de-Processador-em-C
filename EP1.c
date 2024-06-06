@@ -70,7 +70,7 @@ int aritt(int i, int dest, int Op1, int Op2)
     printf("Destino nao deu certo :( \n");
   }
 
-  int valor1;
+   unsigned short int valor1;
   switch (Op1)
   {
   case 0b000:
@@ -95,7 +95,7 @@ int aritt(int i, int dest, int Op1, int Op2)
     printf("Op1 nao deu certo :( \n");
   }
 
-  int valor2;
+  unsigned short int valor2;
   if (Op2 == 0b000)
   {
     valor2 = 0;
@@ -175,6 +175,7 @@ int aritt(int i, int dest, int Op1, int Op2)
     printf("SUB \n");
     *destino = valor1 - valor2;
   }
+  printf("%d %d \n", valor1, valor2);
 }
 
 int processa(short int *M, int memSize)
