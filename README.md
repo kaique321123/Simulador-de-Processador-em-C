@@ -39,14 +39,16 @@ Este projeto implementa um simulador de processador básico em linguagem C, capa
 ## Como Compilar e Executar
 
 1. **Pré-requisitos**: Certifique-se de ter um compilador C, como `gcc`, instalado em seu sistema.
-2. **Compilação**:
+2. **Compilação**: Utilize o arquivo Makefile, necessário para incluir os drivers corretamente.
    ```bash
-   gcc -o simulador main.c -Wall
+   make
    ```
 3. **Execução**:
    ```bash
    ./simulador
    ```
+4. **Arquivo de Entrada**:
+   - O programa lê as instruções de um arquivo chamado `exemplo.ram`. Certifique-se de que este arquivo esteja no mesmo diretório do executável.
 
 ## Exemplo de Memória
 
